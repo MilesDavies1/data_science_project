@@ -14,10 +14,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, plot_confusion_matrix, accuracy_score
 
-universal_no_outliers = r'D:/users/Mmile/Documents/CS/universal_no_outliers.csv'
-universal = r'D:/users/Mmile/Documents/CS/universal_combined_training_set_final.csv'
-english_no_outliers = r'D:/users/Mmile/Documents/CS/english_no_outliers.csv'
-english = r'D:/users/Mmile/Documents/CS/english_combined_training_set_final.csv'
+universal_no_outliers = r'C:InsertFileLocation.csv'
+universal = r'C:InsertFileLocation.csv'
+english_no_outliers = r'C:InsertFileLocation.csv'
+english = r'C:InsertFileLocation.csv'
 
 def turn_orgs_to_bots(df):  
   df = df.replace({'labels': 2}, {'labels': 1})
@@ -60,11 +60,8 @@ def remove_outliers(zscore, pathA, pathB):
   human_df = mdf[mdf["labels"] == 1]  
   non_human_df = mdf[mdf["labels"] == 0]  
   columns = ["astroturf", "fake follower", "financial", "other", "overall", "self-declared", "spammer"]
-    # filter out the outliers  
-    # CAP,astroturf,fake_follower,financial,other,overall,self-declared  
-    #columns = ["astroturf", "fake follower", "financial", "other", "overall", "self-declared", "spammer"]  
-    #for humans in columns : ["astroturf", "fake follower", "financial", "other", "overall", "self-declared"]  
-    #columns_list = ["astroturf", "overall", "spammer",]
+
+    # for humans
   human_df = human_df[np.abs(stats.zscore(human_df[columns]) < zscore).all(axis=1)]  
   
     # for non_humans  
@@ -96,16 +93,13 @@ def confusion_matrix(path, lang):
   for title, normalize in title_options:
     disp = ConfusionMatrixDisplay.from_estimator(model, X_test_scaled, Y_test, display_labels=["bot", "human"], 
                                           cmap=plt.cm.Blues, normalize=normalize)
-    file_path = r'D:/users/Mmile/Documents/CS/file-{}-{}.png'.format(normalize, lang)
+    file_path = r'C:InsertFileLocation.csv/file-{}-{}.png'.format(normalize, lang)
     disp.ax_.set_title(title)
     plt.savefig(file_path)
 
-
-#removes the specified amount of outliers/lareger the z score, the further away the account has to be from the mean to be considered an outlier
-#objective is to find the optimal zscore to find how accurately the algorithm discerns wether the account is a bot or human
-#find which zscore(standard deviation) results in the highest accuracy 
-
-zscore = 2.8 
+	
+	
+zscore = 2.8
 zscore_list = []
 results_list = []
 while zscore >= 0:
@@ -114,7 +108,7 @@ while zscore >= 0:
   result = logisticRegression(universal_no_outliers)
   result *= 100
   results_list.append(float("{:.2f}".format(result)))
-  zscore -= 0.1
+  zscore -= 0.01
 
 zscore_total = 0
 accuracies_total = 0
@@ -147,10 +141,10 @@ plt.xlabel('standard deviation')
 plt.ylabel('accurary %')
 plt.show()
 
-# remove_outliers(best_zscore, english, english_no_outliers)
-# logisticRegression(english_no_outliers)
-# # confusion_matrix(english_no_outliers, "eng")
+remove_outliers(best_zscore, english, english_no_outliers)
+logisticRegression(english_no_outliers)
+confusion_matrix(english_no_outliers, "eng")
 
-# remove_outliers(best_zscore, universal, universal_no_outliers)
-# logisticRegression(universal_no_outliers)
-# confusion_matrix(universal_no_outliers, "univ")
+remove_outliers(best_zscore, universal, universal_no_outliers)
+logisticRegression(universal_no_outliers)
+confusion_matrix(universal_no_outliers, "univ")
