@@ -145,8 +145,6 @@ for id, result in bom.check_accounts_in(ids[start_index:end_index]):
                 columns=["id", "astroturf", "fake follower", 
                          "financial", "other", "overall", "self-declared", "spammer", "labels"]) 
 
-  
-
             if (training_set.iat[ids.index(id), 1]).lower() == "human": 
 
                 human_eng = pd.concat([human_eng, row], ignore_index=True) 
@@ -158,8 +156,6 @@ for id, result in bom.check_accounts_in(ids[start_index:end_index]):
             elif (training_set.iat[ids.index(id), 1]).lower() == "organization": 
 
                 org_eng = pd.concat([org_eng, row], ignore_index=True) 
-
-  
 
         else: 
 
@@ -185,8 +181,6 @@ for id, result in bom.check_accounts_in(ids[start_index:end_index]):
 
                          "financial", "other", "overall", "self-declared", "spammer", "labels"]) 
 
-  
-
             if (training_set.iat[ids.index(id), 1]).lower() == "human": 
 
                 human_univ = pd.concat([human_univ, row], ignore_index=True) 
@@ -199,22 +193,18 @@ for id, result in bom.check_accounts_in(ids[start_index:end_index]):
 
                 org_univ = pd.concat([org_univ, row], ignore_index=True) 
 
-  
-
         # these strings make it easy to see how many ids you have gone through 
 
         # they are also useful for detecting errors in your code 
 
         print(f'{id} has been processed.') 
 
-  
-
     except Exception as e: 
         traceback.print_exc()
         print("{} could not be fetched: {}".format(id, e)) 
 
-print("failed: " + str(counter1fail))
-print("success: " + str(counter2success))
+# print("failed: " + str(counter1fail))
+# print("success: " + str(counter2success))
   
 
 # the contents of the dataframes are strings but histograms cant use strings 
@@ -316,8 +306,5 @@ plt.savefig(data_path + r'/plot_6.png')
 # displays the histograms. if you dont care to see them then you dont have to include this 
 
 # they will be saved to the png files regardless 
-
-#failed: 363
-#success: 5189
 
 plt.show()
