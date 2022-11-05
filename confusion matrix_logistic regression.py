@@ -14,10 +14,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, plot_confusion_matrix, accuracy_score
 
-universal_no_outliers = r'D:/users/Mmile/Documents/CS/universal_no_outliers.csv'
-universal = r'D:/users/Mmile/Documents/CS/universal_combined_training_set_final.csv'
-english_no_outliers = r'D:/users/Mmile/Documents/CS/english_no_outliers.csv'
-english = r'D:/users/Mmile/Documents/CS/english_combined_training_set_final.csv'
+universal_no_outliers = r'C:InsertFileLocation.csv'
+universal = r'C:InsertFileLocation.csv'
+english_no_outliers = r'C:InsertFileLocation.csv'
+english = r'C:InsertFileLocation.csv'
 
 def turn_orgs_to_bots(df):  
   df = df.replace({'labels': 2}, {'labels': 1})
