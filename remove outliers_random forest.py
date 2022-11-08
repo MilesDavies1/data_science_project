@@ -64,18 +64,8 @@ def random_forest(path, lang):
   optimization_dict = {'max_depth': [2, 4, 6], 'n_estimators': [50, 200, 500], 'learning_rate': [0.1, 0.01, 1]}
   model = model_selection.GridSearchCV(model, optimization_dict, scoring='accuracy', verbose=1)
   model.fit(X_train_scaled, Y_train)
-
-  print(model.best_score_)
-  print(model.best_params_)
-
-  title_options = [("Confusion Matrix, without normalization", None), ("Normalization: true", "true"), 
-                    ("Normalization: pred", "pred"), ("Normalization: all", "all")]
-  for title, normalize in title_options:
-    disp = ConfusionMatrixDisplay.from_estimator(model, X_test_scaled, Y_test, display_labels=["bot", "human"], 
-                                          cmap=plt.cm.Blues, normalize=normalize)
-    file_path = r'C:InsertFileLocation/file-{}-{}.png'.format(normalize, lang)
-    disp.ax_.set_title(title)
-    plt.savefig(file_path)
+  result = model.score(X_test_scaled, Y_test)
+  return result
 
 zscore = 2.8 
 zscore_list = []
